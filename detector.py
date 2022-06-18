@@ -5,19 +5,22 @@ from scapy.all import *
 import sys
 import os
 
-print("Welcome to Netmon!")
+print("Welcome to Netmon, the malware detector!")
+print()
 
 def help():
-    print("--file-scan /t/t/t shows the list of files in the directory")
+    print("\bSwitch \t\t \bDescription")
+    print()
+    print("--file-scan \t\t shows the list of files in the directory")
 
 
 def main():
     if "--file-scan" in sys.argv:
-        os.system("ls")
+        os.system("ls -alps")
 
 
-if "--help" or ""
-
+if "--help" or "-h" in sys.argv:
+    help()
 
 
 if __name__ == "__main__":
