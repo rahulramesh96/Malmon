@@ -91,6 +91,14 @@ if "--net-mon" in sys.argv:
     pkt_to_sniff = pkt_count
 
     # This program will capture only the ARP packets.
+    
+
+
+    bad_ips = os.path.exists('bad_ips.txt')
+    if bad_ips is False:
+        os.system('touch bad_ips.txt ; sudo chmod 777 bad_ips.txt')
+
+
 
     proto_sniff = "arp"
     # The function will extract parameters from the packet and then log each packet
@@ -103,23 +111,26 @@ if "--net-mon" in sys.argv:
         # Writing the data to the console output the file
             
             print(packet[0].psrc + "\t\t" + packet[0].pdst)
+            bad_ips= open("bad_ips.txt", "r")
+            bad_ips_content = bad_ips.read()
+            if (packet[0].psrc) in bad_ips_content:
+                print('\x1b[7;31;50m' + bad_ips_content + 'ALERT! Malicious IP found.' + '\x1b[0m')
+
     # Printing an informational message to the screen
     print("\n* Starting the capture...")
     print(" Source IP " + "\t\t" + " Destination IP ")
 
     # Running the sniffing process (with or without a filter)
+            
 
     if proto_sniff == "arp":
-        sniff(iface=conf.iface, filter=proto_sniff, count=int(pkt_to_sniff), prn=packet_log)
+        sniff(iface=conf.iface, filter=proto_sniff, count=int(pkt_to_sniff), prn=packet_log, timeout = 10)
+        print("End of Capture.")
+        print()
 
     else:
         print("\nCould not identify the protocol.\n")
-        exit()
-
-
-
-
-    
+        exit()  
     
 
         
