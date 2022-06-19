@@ -9,23 +9,28 @@ import threading
 import time
 
 
-print("Welcome to Maltect, the malware detector!")
-print()
-
-if "--net-mon" in sys.argv:
+if '--net-mon' in sys.argv:
     if "--file-scan" in sys.argv:
-        print("You cannot use both the features together.")
+        print("Welcome to Malmon!")
+        print('You cannot use both the features together.')
         exit()
 
+if len(sys.argv)==1:
+    print('Welcome to Malmon! The antimalware scanner and network monitoring tool.')
+    print('Please use -h to view help')
+
 def help():
-    print("Switch \t\t\t Description")
+    print('Welcome to Malmon! The antimalware scanner and network monitoring tool.')
     print()
-    print("--file-scan \t\t shows the list of files in the directory")
+    print("Switch \t\t\t\t\t Description")
+    print()
+    print("--file-scan \t\t\t\t Checks the current workind directory for malware")
+    print("--net-mon <interface name> \t\t Network monitoring tool")
 
 
 def main():
     if ("--file-scan") in sys.argv:
-        print("Welcome to malware scan!")
+        print("Welcome to malware scan mode!")
         print("The list of files under the current directory are: ")
         os.system("ls -alps")
         print()
@@ -96,7 +101,7 @@ def main():
 
 
     if "--net-mon" in sys.argv:
-        print("Welcome to NetMon")
+        print("Welcome to Network Monitoring tool!")
         interface = sys.argv[sys.argv.index("--net-mon")+1]
         
         if interface not in conf.iface:
@@ -162,7 +167,7 @@ def main():
         
         domain_name = str(packet.qd.qname)
         domain = str(domain_name[1:])
-        print('Visited Domain' + domain)
+        print('Visited Domain ' + domain)
         
         bad_domains= open("bad_domains.txt", "r")
         bad_domains_content = bad_domains.read()  
@@ -176,7 +181,9 @@ def main():
             print('\x1b[7;31;50m' + domain + '\t\t' + 'ALERT! Malicious Domain found.' + '\x1b[0m')
       
 
-if ("--help" or "-h") in sys.argv:
+if ("--help") in sys.argv:
+    help()
+elif("-h") in sys.argv:
     help()
 
 
