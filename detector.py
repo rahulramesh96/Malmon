@@ -49,12 +49,13 @@ def main():
         
         malware_hash = hashlib.sha256(open('my_fake_malware.txt','rb').read()).hexdigest()
         print("Malware's SHA-256 Hash is: " + malware_hash)
+        print()
 
         text_file = open("./malware_hash_database.txt", "w")
         text_file.write(malware_hash + ':' + 'fake_malware')
         text_file.close()
 
-        def check_if_string_in_file(file_name, string_to_search):
+        def mal_scan(file_name, string_to_search):
             """ Check if any line in the file contains given string """
             # Open the file in read only mode
             with open(file_name, 'r') as read_obj:
@@ -62,11 +63,11 @@ def main():
                 for line in read_obj:
                     # For each line, check if line contains the string
                     if string_to_search in line:
-                        print(line + " is found in malware database")
-                        print("Quarantine! or take appropriate action.")
+                        print(line + '\033[1m found \033[1m' + 'in malware database')
+                        
             return False
         
-        check_if_string_in_file('malware_hash_database.txt', gethash)
+        mal_scan('malware_hash_database.txt', gethash)
 
 
 
