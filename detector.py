@@ -77,14 +77,50 @@ def main():
 
 
 
-if ("--net-mon") in sys.argv:
+if "--net-mon" in sys.argv:
     print("Welcome to NetMon")
+    interface = sys.argv[sys.argv.index("--net-mon")+1]
+    
+    if interface not in conf.iface:
+        print("Cannot proceed. Enter an active interface!")
+        exit()
+    ip = get_if_addr(interface)
+    print("Your IP address of "+ interface + " is " + ip)
+
+    pkt_count = 0
+    pkt_to_sniff = pkt_count
+
+    # This program will capture only the ARP packets.
+
+    proto_sniff = "arp"
+    # The function will extract parameters from the packet and then log each packet
+    def packet_log(packet):
+        
+
+
+    # Writing the packet information to the log file
+        if(proto_sniff == "arp"):
+        # Writing the data to the console output the file
+            
+            print(packet[0].psrc + "\t\t" + packet[0].pdst)
+    # Printing an informational message to the screen
+    print("\n* Starting the capture...")
+    print(" Source IP " + "\t\t" + " Destination IP ")
+
+    # Running the sniffing process (with or without a filter)
+
+    if proto_sniff == "arp":
+        sniff(iface=conf.iface, filter=proto_sniff, count=int(pkt_to_sniff), prn=packet_log)
+
+    else:
+        print("\nCould not identify the protocol.\n")
+        exit()
 
 
 
 
-
-
+    
+    
 
         
 
