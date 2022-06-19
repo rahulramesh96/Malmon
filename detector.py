@@ -7,8 +7,13 @@ import hashlib
 import glob
 
 
-print("Welcome to Netmon, the malware detector!")
+print("Welcome to Maltect, the malware detector!")
 print()
+
+if "--net-mon" in sys.argv:
+    if "--file-scan" in sys.argv:
+        print("You cannot use both the features together.")
+        exit()
 
 def help():
     print("Switch \t\t\t Description")
@@ -18,6 +23,7 @@ def help():
 
 def main():
     if ("--file-scan") in sys.argv:
+        print("Welcome to malware scan!")
         print("The list of files under the current directory are: ")
         os.system("ls -alps")
         print()
@@ -69,6 +75,10 @@ def main():
         
         mal_scan('malware_hash_database.txt', gethash)
 
+
+
+if ("--net-mon") in sys.argv:
+    print("Welcome to NetMon")
 
 
 
