@@ -31,20 +31,20 @@ def help(): # This is the help function, which will be triggered if the user inp
     print()
     print("Switch \t\t\t\t\t Description")
     print()
-    print("--file-scan \t\t\t\t Checks the current workind directory for malware")
+    print("--file-scan \t\t\t\t Checks the current working directory for malware")
     print("--net-mon <interface name> \t\t Network monitoring tool")
 
 
-def main():
-    if ("--file-scan") in sys.argv:
+def main(): # This is the main function where the entire code for the program resides.
+    if ("--file-scan") in sys.argv: # This switch scans for malware in the current director with the existing malware hash databse and send out an alert if any malicious file is found.
         print("Welcome to malware scan mode!")
         print("The list of files under the current directory are: ")
-        os.system("ls -alps")
+        os.system("ls -alps") # We will list out all the files present in the present working directory.
         print()
         print("Now Calculating the hash of all the files and folders in the current directory...")
-        path = str(subprocess.check_output(['pwd'], shell = False))
-        new_path = path[2:-3]
-        print(new_path)
+        path = str(subprocess.check_output(['pwd'], shell = False)) # Setting a variable called 'path' which can store the present working directory of the application.
+        new_path = path[2:-3] # The new_path variable has the path variable sanitised.
+        print(new_path) 
         file = glob.glob(new_path + "/*.*")
         
         print()
@@ -83,6 +83,7 @@ def main():
             with open(file_name, 'r') as read_obj:
                 # Read all lines in the file one by one
                 for line in read_obj:
+                    
                     # For each line, check if line contains the string
                     if string_to_search in line:
                         print(line + '\033[1m' + ' found ' + '\033[1m' + 'in malware database')
@@ -92,7 +93,7 @@ def main():
                         print()
             return False
         
-        mal_scan('malware_hash_database.txt', gethash)
+        mal_scan('malware_hash_database.txt', malware_hash)
 
         # Below is the process of performing the malware scan using threading
         print('Malware Scan with THREADING')
