@@ -45,55 +45,54 @@ def main(): # This is the main function where the entire code for the program re
         path = str(subprocess.check_output(['pwd'], shell = False)) # Setting a variable called 'path' which can store the present working directory of the application.
         new_path = path[2:-3] # The new_path variable has the path variable sanitised.
         print(new_path) 
-        file = glob.glob(new_path + "/*.*")
+        file = glob.glob(new_path + "/*.*") # The 'file' variable holds the name of the files along with the path in the present working directory.
         
         print()
-        print('File name'+ '\t\t' + 'SHA-256 Hash')
+        print('File name'+ '\t\t\t\t\t\t' + 'SHA-256 Hash') # Printing the file name with the SHA-256 hash of the same file.
         
-        for f in file:
-            with open(f, 'rb') as getsha256:
-                data = getsha256.read()
-                gethash = hashlib.sha256(data).hexdigest()
-                file_name = os.path.basename(new_path)
-                
-                print( f + '\t\t' + gethash)
+        for f in file: # f will be iterated through the 'file' variable line by line
+            with open(f, 'rb') as getsha256: # We open the file in read mode using 'rb' 
+                data = getsha256.read() # the read function reads the first file and stores it in a temporary variable called data.
+                gethash = hashlib.sha256(data).hexdigest() # We can now feed in the data in the sha-256 hashing algorithm and save it in the variable gethash
+                print( f + '\t\t\t' + gethash) # The filename and its associated hash is printed in two columns
+
         print()
         print("All SHA-256 hashes performed.")
         print()
-        hash_database = os.path.exists('malware_hash_database.txt')
-        if hash_database is False:
+        hash_database = os.path.exists('malware_hash_database.txt') # Checks if there is a malware database.
+        if hash_database is False: # If there is no Hash Database, the next line will create a hash database.
             os.system('touch malware_hash_database.txt')
 
-        fake_malware = os.path.exists('my_fake_malware.txt')
-        if fake_malware is False:    
+        fake_malware = os.path.exists('my_fake_malware.txt') # Checks if the malware is present in the system.
+        if fake_malware is False:    # If the malware is not present, the next would create a new malware.
             os.system('touch my_fake_malware.txt')
         
-        malware_hash = hashlib.sha256(open('my_fake_malware.txt','rb').read()).hexdigest()
-        print("Malware's SHA-256 Hash is: " + malware_hash)
+        malware_hash = hashlib.sha256(open('my_fake_malware.txt','rb').read()).hexdigest() # malware_hash holds the SHA-256 hash of the 'my_fake_malware'
+        print("Malware's SHA-256 Hash is: " + malware_hash) # The Malware's SHA-256 hash is printed.
         print()
 
-        text_file = open("./malware_hash_database.txt", "w")
-        text_file.write(malware_hash + ':' + 'fake_malware')
-        text_file.close()
+        text_file = open("./malware_hash_database.txt", "w") # The malware database is opened in write mode.
+        text_file.write(malware_hash + ':' + 'fake_malware') # The hash of the malware is written in the database.
+        text_file.close() # The file is closed.
 
-        def mal_scan(file_name, string_to_search):
-            """ Check if any line in the file contains given string """
-            start = time.time()
-            # Open the file in read only mode
-            with open(file_name, 'r') as read_obj:
-                # Read all lines in the file one by one
-                for line in read_obj:
+        def mal_scan(file_name, string): # Checks if any string matches in the context of the file.
+            
+            start = time.time() # We start the timer to compute the elapsed execution time, 'start' variable holds the elapsed time in runtime.
+            
+            with open(file_name, 'r') as read_obj: # Open the file in read only mode
+                
+                for line in read_obj: # Read all lines in the file one by one
                     
-                    # For each line, check if line contains the string
-                    if string_to_search in line:
-                        print(line + '\033[1m' + ' found ' + '\033[1m' + 'in malware database')
-                        end =time.time()
-                        final_time = end - start
-                        print('scan completed in', final_time , 'seconds')
+                    
+                    if string in line: # check if the string is present in each line
+                        print(line + '\033[1m' + ' found ' + '\033[1m' + 'in malware database') # If the string is found, then the malware is present in the database
+                        end = time.time() # 'end' variable holds the value of elapsed time in runtime.
+                        final_time = end - start # final_time gives the value of the total time in seconds by subtracting the end time and the start time.
+                        print('scan completed in', final_time , 'seconds') # The elapsed time is shown after the above function is executed.
                         print()
             return False
         
-        mal_scan('malware_hash_database.txt', malware_hash)
+        mal_scan('malware_hash_database.txt', malware_hash) # mal_scan() function is called with arguments passed as 'malware_hash_databse.txt' and the 'malware_hash' to search through the  malware databse
 
         # Below is the process of performing the malware scan using threading
         print('Malware Scan with THREADING')
