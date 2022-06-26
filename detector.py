@@ -1,25 +1,32 @@
 #!/usr/bin/python3
 
-from scapy.all import *
-import sys
-import os
-import hashlib
-import glob
-import threading
-import time
+from scapy.all import * # This library is used for dealing with packets.
+import sys # The sys module in the language offers a number of functions and variables to control python interpreter.
+import os # OS library is used to run commands to interact with teh Operating System.
+import hashlib # A library to deal with hashes.
+import glob # Glob module locates all pathnames that match a given pattern.
+import threading # A library to performing threading to speed up the process.
+import time # A time module to keep track of time
 
 
-if '--net-mon' in sys.argv:
-    if "--file-scan" in sys.argv:
-        print("Welcome to Malmon!")
-        print('You cannot use both the features together.')
-        exit()
 
-if len(sys.argv)==1:
-    print('Welcome to Malmon! The antimalware scanner and network monitoring tool.')
+if '--net-mon' in sys.argv: # If the input in the CLI has --net-mon switch then the loop will be entered.
+    if "--file-scan" in sys.argv: # If the --file-scan switch is present after --net-mon or interchangeably, it will further enter the loop.
+        print("Welcome to Malmon!") # Prints the welcome message.
+        print('You cannot use both the features together.') # Both the switches --net-mon and --file-scan cannot be used simultaneuosly.
+        exit() #
+
+if '--file-scan' in sys.argv: # If the input in the CLI has --file-scan switch then the loop will be entered.
+    if "--net-mon" in sys.argv: # If the --file-scan switch is present after --net-mon or interchangeably, it will further enter the loop.
+        print("Welcome to Malmon!") # Prints the welcome message.
+        print('You cannot use both the features together.') # Both the switches --net-mon and --file-scan cannot be used simultaneuosly.
+        exit() #
+
+if len(sys.argv)==1: # If there is no switch supplied while running the tool, Malmon would assist you to run a help command to use the tool better.
+    print('Welcome to Malmon! The antimalware scanner and network monitoring tool.') # Prints the welcome message.
     print('Please use -h to view help')
 
-def help():
+def help(): # This is the help function, which will be triggered if the user inputs a '-h' or '--help' as switches.
     print('Welcome to Malmon! The antimalware scanner and network monitoring tool.')
     print()
     print("Switch \t\t\t\t\t Description")
@@ -180,12 +187,19 @@ def main():
             print()
             print('\x1b[7;31;50m' + domain + '\t\t' + 'ALERT! Malicious Domain found.' + '\x1b[0m')
       
-
 if ("--help") in sys.argv:
-    help()
-elif("-h") in sys.argv:
-    help()
+    if len(sys.argv)==2:
+        help()
+    else:
+        print("Do not use more than one switch for help.")
+        exit()
 
+if ("-h") in sys.argv:
+    if len(sys.argv)==2:
+        help()
+    else:
+        print('Do not use more than one switch for help.')
+        exit()
 
 if __name__ == "__main__":
     main()
