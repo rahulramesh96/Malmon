@@ -27,7 +27,7 @@ if len(sys.argv)==1: # If there is no switch supplied while running the tool, Ma
     print('Please use -h to view help')
 
 def help(): # This is the help function, which will be triggered if the user inputs a '-h' or '--help' as switches.
-    print('Welcome to Malmon! The antimalware scanner and network monitoring tool. Maintained by Rahul Ramesh. StudentID = R00207989.')
+    print('Welcome to Malmon! The antimalware scanner and network monitoring tool. Maintained by Rahul Ramesh. Student ID = R00207989.')
     print()
     print("Switch \t\t\t\t\t Description")
     print()
@@ -168,11 +168,12 @@ def main(): # This is the main function where the entire code for the program re
         
         domain_name = str(packet.qd.qname) # This will convert the qname 'www.google.com' to string and store it in the domain_name variable.
         domain = str(domain_name[1:]) # This will strip off the character 'b' in the domain_name variable
-        print('Queried Domain ' + domain) # The queried domain will be printed here.
+        new_domain = domain[1:-1] # This will strip off the apostrophe in the beginning of the domain and the ending of the domain.
+        print('Queried Domain ' + new_domain) # The queried domain will be printed here.
         
         bad_domains= open("bad_domains.txt", "r") # The bad domains text file will be opened in read mode.
         bad_domains_content = bad_domains.read()  # The bad_domains_content will store each line bad_domains.txt
-        if domain in bad_domains_content: # The bad_domains_content will be checked with the queried domain name in the below loop.
+        if new_domain in bad_domains_content: # The bad_domains_content will be checked with the queried domain name in the below loop.
 
             print('Reading through dangerous domains...')
             print(bad_domains_content) # This will print out the list of malicious domains.
@@ -180,7 +181,7 @@ def main(): # This is the main function where the entire code for the program re
             print('Domain' + '\t\t\t\t' + 'Description')
             print()
             try:
-                print('\x1b[7;31;50m' + domain + '\t\t' + 'ALERT! Malicious Domain found.' + '\x1b[0m')
+                print('\x1b[7;31;50m' + new_domain + '\t\t' + 'ALERT! Malicious Domain found.' + '\x1b[0m')
             except:
                 print('No malicious domains visited.')
       
