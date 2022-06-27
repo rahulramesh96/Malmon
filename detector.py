@@ -27,7 +27,7 @@ if len(sys.argv)==1: # If there is no switch supplied while running the tool, Ma
     print('Please use -h to view help')
 
 def help(): # This is the help function, which will be triggered if the user inputs a '-h' or '--help' as switches.
-    print('Welcome to Malmon! The antimalware scanner and network monitoring tool.')
+    print('Welcome to Malmon! The antimalware scanner and network monitoring tool. Maintained by Rahul Ramesh. StudentID = R00207989.')
     print()
     print("Switch \t\t\t\t\t Description")
     print()
@@ -36,6 +36,7 @@ def help(): # This is the help function, which will be triggered if the user inp
 
 
 def main(): # This is the main function where the entire code for the program resides.
+
     if ("--file-scan") in sys.argv: # This switch scans for malware in the current director with the existing malware hash databse and send out an alert if any malicious file is found.
         print("Welcome to malware scan mode!")
         print("The list of files under the current directory are: ")
